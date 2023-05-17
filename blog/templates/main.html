@@ -53,6 +53,7 @@
                     <form class="text-center mt-2" method="post" action="/create_answer">
                         {% csrf_token %}
                         {{ answer_form.as_p }}
+                        <input type="hidden" name="pk" value="{{ question.pk }}">
                         <input class="btn btn-primary m-2" type="submit" value="Answer">
                     </form>
                 </div>

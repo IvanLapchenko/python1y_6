@@ -22,5 +22,5 @@ class AnswerForm(forms.ModelForm):
         fields = ['text']
         labels = {'text': ''}
         widgets = {
-            'text': forms.Textarea(attrs={'class': 'form-control'})
+            'text': forms.Textarea(attrs={'class': 'form-control', 'rows': '1'})
         }

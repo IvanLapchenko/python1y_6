@@ -7,9 +7,12 @@ from .forms import *
 
 def render_main_page(request):
     category_id = request.GET.get('id')
+    if category_id:
+        questions = get_all_questions_with_answers_for_category(category_id)
+    else:
+        questions = get_all_questions_with_answers()
     question_form = QuestionForm()
     answer_form = AnswerForm()
-    questions = get_all_questions_with_answers_for_category(category_id)
     return render(request, 'main.html', context={'questions': questions,
                                                  'question_form': question_form,
                                                  'answer_form': answer_form})
@@ -20,11 +23,20 @@ def create_question(request):
         form = QuestionForm(request.POST)
 
         if form.is_valid():
-            question = form.save(commit=False)
-            print(request.user)
-            question.author = request.user
-            question.publish()
-            messages.success(request, message='Question asked!')
+            create_question_with_success_message(form, request)
+        else:
+            messages.error(request, 'There was an error while adding question, check your data and try again.')
+        return redirect('/')
+
+
+def create_answer(request):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+
+        if form.is_valid():
+            create_answer_with_success_message(form, request)
+        else:
+            messages.error(request, 'There was an error while adding answer, check your data and try again.')
         return redirect('/')
 
 
