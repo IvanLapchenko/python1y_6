@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .controllers import *
 from .forms import *
-# TODO add function that crates answers
 
 
 def render_main_page(request):
@@ -12,10 +11,8 @@ def render_main_page(request):
     else:
         questions = get_all_questions_with_answers()
     question_form = QuestionForm()
-    answer_form = AnswerForm()
     return render(request, 'main.html', context={'questions': questions,
-                                                 'question_form': question_form,
-                                                 'answer_form': answer_form})
+                                                 'question_form': question_form})
 
 
 def create_question(request):
@@ -42,3 +39,11 @@ def create_answer(request):
 
 def render_categories_page(request):
     return render(request, 'categories.html', {'categories': get_all_categories()})
+
+
+def render_question_page(request):
+    question_id = request.GET.get('id')
+    answer_form = AnswerForm()
+    return render(request, 'question.html', {'question': get_question_by_id(question_id),
+                                             'answers': get_answers_for_question(question_id),
+                                             'answer_form': answer_form})

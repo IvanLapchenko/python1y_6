@@ -14,6 +14,14 @@ def get_all_questions_with_answers_for_category(category_id):
     return Question.objects.all().filter(category=int(category_id)).prefetch_related('answer_set')
 
 
+def get_question_by_id(question_id):
+    return Question.objects.get(pk=question_id)
+
+
+def get_answers_for_question(question_id):
+    return Answer.objects.all().filter(question=question_id)
+
+
 def get_all_questions_with_answers():
     return Question.objects.all().prefetch_related('answer_set')
 
