@@ -1,0 +1,9 @@
+<a href="{% url 'render_question_page' %}?id={{ question.id }}"
+   class="list-group-item list-group-item-action">
+    {{ question.title }}
+</a>
+<p class="card-text">
+    <small class="text-muted">
+        {{ question.author }} - {{ question.published_date }}
+    </small>
+</p>

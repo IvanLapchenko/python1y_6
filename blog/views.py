@@ -55,3 +55,8 @@ def edit_question(request, question_id):
 
 def edit_answer(request, answer_id):
     return edit_record(request, Answer, AnswerForm, answer_id)
+
+
+def user_questions(request):
+    questions = get_all_questions_for_user(request.user)
+    return render(request, 'user.html', {'questions': questions})

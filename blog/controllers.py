@@ -59,3 +59,8 @@ def edit_record(request, model_class, form_class, record_id):
     else:
         form = form_class(instance=record)
     return render(request, 'edit_record.html', {'form': form, 'model': record.__class__.__name__})
+
+
+def get_all_questions_for_user(user):
+    return Question.objects.all().filter(author=user)
+

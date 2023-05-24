@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} My questions {% endblock %}
+
+{% block content %}
+    {% for question in questions %}
+
+        <div class="card mb-3">
+            <div class="card-body">
+                {% include 'included/render_single_question.html' %}
+                <a href="question/edit/{{ question.id }}/">Edit</a>
+            </div>
+        </div>
+
+    {% endfor %}
+{% endblock %}
