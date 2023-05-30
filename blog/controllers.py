@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
-
+from django.db.models import Q
 from .models import Question, Answer, Category
 
 
@@ -63,4 +63,8 @@ def edit_record(request, model_class, form_class, record_id):
 
 def get_all_questions_for_user(user):
     return Question.objects.all().filter(author=user)
+
+
+def get_questions_by_search_query(query):
+    return Question.objects.filter(Q(title__icontains=query) or Q(text__icontains=query))
 

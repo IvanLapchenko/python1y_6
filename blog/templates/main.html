@@ -6,15 +6,6 @@
 
     {% include 'included/render_messages.html' %}
 
-    <div class="card mb-3">
-        <h4 class="text-center mt-2">Ask a question</h4>
-        <form class="text-center mt-2" method="post" action="/create_question">
-            {% csrf_token %}
-            {{ question_form.as_p }}
-            <input class="btn btn-primary m-2" type="submit" value="Ask">
-        </form>
-    </div>
-
     {% for question in questions %}
         <div class="card mb-3">
             <div class="card-body">
