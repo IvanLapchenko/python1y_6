@@ -10,7 +10,9 @@ class SignupView(CreateView):
     success_url = reverse_lazy('login')
 
     def form_invalid(self, form):
-        for fields, errors in form.errors.items():
+        print(form)
+        print(form.errors)
+        for errors in form.errors.values():
             for error in errors:
                 messages.warning(self.request, error)
         return super().form_invalid(form)
