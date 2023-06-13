@@ -61,8 +61,21 @@ def edit_record(request, model_class, form_class, record_id):
     return render(request, 'edit_record.html', {'form': form, 'model': record.__class__.__name__})
 
 
+def delete_record(request, model_class, record_id):
+    record = get_object_or_404(model_class, pk=record_id)
+    if request.method == 'POST':
+        record.delete()
+        return redirect('/my_questions')
+    else:
+        return render(request, 'delete_record.html', {'record': record, 'model': record.__class__.__name__})
+
+
 def get_all_questions_for_user(user):
     return Question.objects.all().filter(author=user)
+
+
+def get_all_answers_for_user(user):
+    return Answer.objects.all().filter(author=user)
 
 
 def get_questions_by_search_query(query):

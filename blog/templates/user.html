@@ -3,14 +3,31 @@
 {% block title %} My questions {% endblock %}
 
 {% block content %}
-    {% for question in questions %}
-
-        <div class="card mb-3">
-            <div class="card-body">
-                {% include 'included/render_single_question.html' %}
-                <a href="question/edit/{{ question.id }}/">Edit</a>
+<div class="row">
+    <div class="col">
+        <h3>My Questions</h3>
+        {% for question in questions %}
+            <div class="card my-3">
+                <div class="card-body">
+                    {% include 'included/render_single_question.html' %}
+                    <a class="mr-2" href="question/edit/{{ question.id }}/">Edit</a>
+                    <a href="question/delete/{{ question.id }}/">Delete</a>
+                </div>
             </div>
-        </div>
+        {% endfor %}
+    </div>
 
-    {% endfor %}
+    <div class="col">
+        <h3>My Answers</h3>
+        {% for answer in answers %}
+            <div class="card my-3">
+                <div class="card-body">
+                    <p>{{ answer.text }}</p>
+                    <a class="mr-2" href="answer/edit/{{ answer.id }}/">Edit</a>
+                    <a href="answer/delete/{{ answer.id }}/">Delete</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

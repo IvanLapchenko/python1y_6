@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card m-4">
+
+    <form action="/question/delete/{{ record.id }}/" class="text-center mt-2" method="post">
+        {% csrf_token %}
+        <h3>Confirm delete {{ model }}</h3>
+        <p><strong>{{ model }} text: </strong> {{ record.text }} </p>
+        <button class="btn btn-primary" type="submit">Confirm</button>
+    </form>
+
+    <div class="container text-center mt-3">
+        <button onclick="redirectToUserPage()" class="btn btn-secondary" type="submit">Cancel</button>
+    </div>
+
+    </div>
+
+
+    <script>
+        function redirectToUserPage() {
+            window.location.href = '/my_questions'
+        }
+    </script>
+<!--    <form action="/cancel_delete" class="text-center mt-2">-->
+<!--        <button class="btn btn-secondary mt-2" type="submit">Cancel</button>-->
+<!--    </form>-->
+{% endblock %}
