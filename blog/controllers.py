@@ -5,7 +5,7 @@ from .models import Question, Answer, Category
 
 
 def get_all_questions():
-    return Question.objects.all()
+    return Question.objects.all().order_by('-up_votes')
 
 
 def get_all_answers():
@@ -13,7 +13,7 @@ def get_all_answers():
 
 
 def get_all_questions_with_answers_for_category(category_id):
-    return Question.objects.all().filter(category=int(category_id)).prefetch_related('answer_set')
+    return get_all_questions().filter(category=int(category_id)).prefetch_related('answer_set')
 
 
 def get_question_by_id(question_id):
@@ -25,7 +25,7 @@ def get_answers_for_question(question_id):
 
 
 def get_all_questions_with_answers():
-    return Question.objects.all().prefetch_related('answer_set')
+    return get_all_questions().prefetch_related('answer_set')
 
 
 def get_all_categories():

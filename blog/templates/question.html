@@ -2,7 +2,13 @@
 
 {% block content %}
     <div class="card mb-3">
-        <div class="card-body">
+        <div class="card-body d-flex flex-row">
+            <div class="voteDiv">
+                <button onclick="vote('question', 'upvote', {{ question.id }})" class="votes upvote"></button>
+                <span>{{ question.get_rating }}</span>
+                <button onclick="vote('question', 'downvote', {{ question.id }})" class="votes downvote"></button>
+            </div>
+            <div class="card-body">
             <h5 class="card-title">{{ question.title }}</h5>
             <p class="card-text">{{ question.text }}</p>
             <p class="card-text">
@@ -12,12 +18,17 @@
             </p>
 
             {% for answer in answers %}
-            <div class="card mb-3">
+            <div class="card mb-3 d-flex flex-row">
+                <div class="voteDiv">
+                    <button onclick="vote('answer', 'upvote', {{ answer.id }})" class="votes upvote"></button>
+                    <span>{{ answer.get_rating }}</span>
+                    <button onclick="vote('answer', 'downvote', {{ answer.id }})" class="votes downvote"></button>
+                </div>
                 <div class="card-body">
                     <p class="card-text">{{ answer.text }}</p>
                     <p class="card-text">
                         <small class="text-muted">
-                            {{ question.author }} - {{ question.published_date }}
+                            {{ answer.author }} - {{ answer.published_date }}
                         </small>
                     </p>
                 </div>
@@ -32,7 +43,13 @@
                     <input class="btn btn-primary m-2" type="submit" value="Answer">
                 </form>
             </div>
-
+            </div>
         </div>
     </div>
+
+    <script>
+        function vote (model, action, id) {
+            fetch(`http://localhost:8000/${model}/${action}/${id}/`)
+        }
+    </script>
 {% endblock %}

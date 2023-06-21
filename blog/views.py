@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .controllers import *
@@ -43,7 +44,7 @@ def render_question_page(request):
     question_id = request.GET.get('id')
     answer_form = AnswerForm()
     return render(request, 'question.html', {'question': get_question_by_id(question_id),
-                                             'answers': get_answers_for_question(question_id),
+                                             'answers': get_answers_for_question(question_id).order_by('-up_votes'),
                                              'answer_form': answer_form})
 
 
@@ -78,3 +79,28 @@ def search(request):
 def ask_question(request):
     question_form = QuestionForm()
     return render(request, 'ask_question.html', {'question_form': question_form})
+
+
+def vote(request, model, action, record_id):
+    model_mapping = {
+        'question': Question,
+        'answer': Answer
+    }
+    model_class = model_mapping.get(model)
+
+    record = get_object_or_404(model_class, pk=record_id)
+
+    try:
+        if action == 'upvote':
+            record.upvote(request.user.id)
+        elif action == 'downvote':
+            record.downvote(request.user.id)
+        print(record.get_rating())
+        resp_data = 'ok'
+    except Exception as e:
+        print(e)
+        resp_data = str(e)
+
+    response = HttpResponse(resp_data)
+    return response
+

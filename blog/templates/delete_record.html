@@ -3,7 +3,7 @@
 {% block content %}
     <div class="card m-4">
 
-    <form action="/question/delete/{{ record.id }}/" class="text-center mt-2" method="post">
+    <form action="/{{ model }}/delete/{{ record.id }}/" class="text-center mt-2" method="post">
         {% csrf_token %}
         <h3>Confirm delete {{ model }}</h3>
         <p><strong>{{ model }} text: </strong> {{ record.text }} </p>

@@ -1,0 +1,21 @@
+.upvote {
+    background-image: url(https://i.imgflip.com/4l0qj5.png)
+}
+
+.downvote {
+    background-image: url(https://i.imgflip.com/4l0qmy.png)
+}
+
+.votes {
+    width: 30px;
+    height: 30px;
+    background-size: 100%;
+    border-radius: 20px;
+    border: none;
+}
+
+.voteDiv {
+    flex-direction: column;
+    display: flex;
+    text-align: center;
+}
