@@ -4,9 +4,13 @@
     <div class="card mb-3">
         <div class="card-body d-flex flex-row">
             <div class="voteDiv">
-                <button onclick="vote('question', 'upvote', {{ question.id }})" class="votes upvote"></button>
+                <form action="/question/upvote/{{ question.id }}">
+                    <button type="submit" class="votes upvote"></button>
+                </form>
                 <span>{{ question.get_rating }}</span>
-                <button onclick="vote('question', 'downvote', {{ question.id }})" class="votes downvote"></button>
+                <form action="/question/downvote/{{ question.id }}">
+                    <button type="submit" class="votes downvote"></button>
+                </form>
             </div>
             <div class="card-body">
             <h5 class="card-title">{{ question.title }}</h5>
@@ -20,9 +24,13 @@
             {% for answer in answers %}
             <div class="card mb-3 d-flex flex-row">
                 <div class="voteDiv">
-                    <button onclick="vote('answer', 'upvote', {{ answer.id }})" class="votes upvote"></button>
+                    <form action="/answer/upvote/{{ answer.id }}">
+                        <button type="submit" class="votes upvote"></button>
+                    </form>
                     <span>{{ answer.get_rating }}</span>
-                    <button onclick="vote('answer', 'downvote', {{ answer.id }})" class="votes downvote"></button>
+                    <form action="/answer/downvote/{{ answer.id }}">
+                        <button type="submit" class="votes downvote"></button>
+                    </form>
                 </div>
                 <div class="card-body">
                     <p class="card-text">{{ answer.text }}</p>

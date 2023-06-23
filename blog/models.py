@@ -25,6 +25,9 @@ class BaseModel(models.Model):
                 self.down_votes.remove(user)
             self.up_votes.append(user)
             self.save()
+            print(user)
+            print(f"{self.up_votes} - are upvotes")
+            print(f"{self.down_votes} - are downvotes")
 
     def downvote(self, user):
         if user not in self.down_votes:
@@ -32,6 +35,9 @@ class BaseModel(models.Model):
                 self.up_votes.remove(user)
             self.down_votes.append(user)
             self.save()
+            print(user)
+            print(f"{self.up_votes} - are upvotes")
+            print(f"{self.down_votes} - are downvotes")
 
     def get_rating(self):
         return len(self.up_votes) - len(self.down_votes)

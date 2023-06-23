@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .controllers import *
@@ -90,17 +90,20 @@ def vote(request, model, action, record_id):
 
     record = get_object_or_404(model_class, pk=record_id)
 
+    if isinstance(record, Answer):
+        redirect_id = record.question.id
+    else:
+        redirect_id = record_id
+
     try:
         if action == 'upvote':
             record.upvote(request.user.id)
         elif action == 'downvote':
             record.downvote(request.user.id)
-        print(record.get_rating())
         resp_data = 'ok'
     except Exception as e:
         print(e)
         resp_data = str(e)
 
-    response = HttpResponse(resp_data)
-    return response
+    return redirect(f'/question?id={redirect_id}')
 
