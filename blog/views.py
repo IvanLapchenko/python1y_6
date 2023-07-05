@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .controllers import *
 from .forms import *
+from .models import Notification
 
 
 def render_main_page(request):
@@ -67,7 +68,8 @@ def delete_answer(request, answer_id):
 def user_questions(request):
     questions = get_all_questions_for_user(request.user)
     answers = get_all_answers_for_user(request.user)
-    return render(request, 'user.html', {'questions': questions, 'answers': answers})
+    notifications = get_all_notifications_for_user(request.user)
+    return render(request, 'user.html', {'questions': questions, 'answers': answers, 'notifications': notifications})
 
 
 def search(request):
@@ -87,7 +89,6 @@ def vote(request, model, action, record_id):
         'answer': Answer
     }
     model_class = model_mapping.get(model)
-
     record = get_object_or_404(model_class, pk=record_id)
 
     if isinstance(record, Answer):
@@ -100,6 +101,7 @@ def vote(request, model, action, record_id):
             record.upvote(request.user.id)
         elif action == 'downvote':
             record.downvote(request.user.id)
+        create_notification(request, record, action)
         resp_data = 'ok'
     except Exception as e:
         print(e)

@@ -1,7 +1,8 @@
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Q
-from .models import Question, Answer, Category
+from .models import Question, Answer, Category, Notification
 
 
 def get_all_questions():
@@ -78,6 +79,24 @@ def get_all_answers_for_user(user):
     return Answer.objects.all().filter(author=user)
 
 
+def get_all_notifications_for_user(user):
+    return Notification.objects.all().filter(from_user=user)
+
+
 def get_questions_by_search_query(query):
     return Question.objects.filter(Q(title__icontains=query) or Q(text__icontains=query))
 
+
+def get_user_by_id(user_id):
+    return User.objects.get(pk=user_id)
+
+
+def create_notification(request, record, action):
+    n = Notification()
+
+    n.from_user = get_user_by_id(request.user.id)
+    n.post_id = record.id
+    n.post_type = type(record).__name__
+    n.action = action
+
+    n.save()

@@ -3,6 +3,16 @@
 {% block title %} My questions {% endblock %}
 
 {% block content %}
+<div class="container">
+    {% for notification in notifications %}
+        <div class="alert alert-info">
+            <h6>
+                {{ notification.from_user }} {{ notification.action }}d your {{ notification.post_type }}
+            </h6>
+        </div>
+    {% endfor %}
+</div>
+
 <div class="row">
     <div class="col">
         <h3>My Questions</h3>

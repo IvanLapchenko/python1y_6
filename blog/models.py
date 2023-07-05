@@ -25,9 +25,9 @@ class BaseModel(models.Model):
                 self.down_votes.remove(user)
             self.up_votes.append(user)
             self.save()
-            print(user)
-            print(f"{self.up_votes} - are upvotes")
-            print(f"{self.down_votes} - are downvotes")
+            # print(user)
+            # print(f"{self.up_votes} - are upvotes")
+            # print(f"{self.down_votes} - are downvotes")
 
     def downvote(self, user):
         if user not in self.down_votes:
@@ -35,9 +35,9 @@ class BaseModel(models.Model):
                 self.up_votes.remove(user)
             self.down_votes.append(user)
             self.save()
-            print(user)
-            print(f"{self.up_votes} - are upvotes")
-            print(f"{self.down_votes} - are downvotes")
+            # print(user)
+            # print(f"{self.up_votes} - are upvotes")
+            # print(f"{self.down_votes} - are downvotes")
 
     def get_rating(self):
         return len(self.up_votes) - len(self.down_votes)
@@ -63,3 +63,19 @@ class Answer(BaseModel):
 
     def __str__(self):
         return self.text
+
+
+class Notification(models.Model):
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post_id = models.IntegerField()
+    post_type = models.CharField()
+    action = models.TextField()
+
+    # def __init__(self, user, post_id, post_type, action, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.from_user = user
+    #     self.post_id = post_id
+    #     self.post_type = post_type
+    #     self.action = action
+
+
