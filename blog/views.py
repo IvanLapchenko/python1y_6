@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .controllers import *
@@ -57,12 +57,19 @@ def edit_answer(request, answer_id):
     return edit_record(request, Answer, AnswerForm, answer_id)
 
 
-def delete_question(request, question_id):
-    return delete_record(request, Question, question_id)
+def delete_object(request, object_id, object_name):
+    match object_name:
+        case 'question':
+            return delete_record(request, Question, object_id)
+        case 'Answer':
+            return delete_record(request, Answer, object_id)
 
 
-def delete_answer(request, answer_id):
-    return delete_record(request, Answer, answer_id)
+
+def delete_notification(request, notification_id):
+    Notification.objects.filter(pk=notification_id).delete()
+    print(Notification.objects.all())
+    return HttpResponse('')
 
 
 def user_questions(request):
@@ -101,7 +108,8 @@ def vote(request, model, action, record_id):
             record.upvote(request.user.id)
         elif action == 'downvote':
             record.downvote(request.user.id)
-        create_notification(request, record, action)
+        if request.user != record.author:
+            create_notification(request, record, action)
         resp_data = 'ok'
     except Exception as e:
         print(e)

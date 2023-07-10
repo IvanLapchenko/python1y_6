@@ -66,7 +66,8 @@ class Answer(BaseModel):
 
 
 class Notification(models.Model):
-    from_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='from_user')
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_user')
     post_id = models.IntegerField()
     post_type = models.CharField()
     action = models.TextField()

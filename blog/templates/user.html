@@ -3,16 +3,6 @@
 {% block title %} My questions {% endblock %}
 
 {% block content %}
-<div class="container">
-    {% for notification in notifications %}
-        <div class="alert alert-info">
-            <h6>
-                {{ notification.from_user }} {{ notification.action }}d your {{ notification.post_type }}
-            </h6>
-        </div>
-    {% endfor %}
-</div>
-
 <div class="row">
     <div class="col">
         <h3>My Questions</h3>
@@ -39,5 +29,28 @@
             </div>
         {% endfor %}
     </div>
+
+    <div class="col container">
+        <h3>Notifications</h3>
+        {% for notification in notifications %}
+            <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                {{ notification.from_user }} {{ notification.action }}d your {{ notification.post_type }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                        onclick="deleteNotification({{ notification.id }})">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
 </div>
+
+<script>
+    function deleteNotification(id) {
+          fetch(`http://localhost:8000/delete_notification/${id}`, {
+            mode: 'no-cors'
+          })
+    }
+</script>
+
 {% endblock %}
+

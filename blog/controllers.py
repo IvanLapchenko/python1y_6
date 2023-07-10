@@ -80,7 +80,7 @@ def get_all_answers_for_user(user):
 
 
 def get_all_notifications_for_user(user):
-    return Notification.objects.all().filter(from_user=user)
+    return Notification.objects.all().filter(Q(to_user=user) and ~Q(from_user=user))
 
 
 def get_questions_by_search_query(query):
@@ -95,6 +95,7 @@ def create_notification(request, record, action):
     n = Notification()
 
     n.from_user = get_user_by_id(request.user.id)
+    n.to_user = record.author
     n.post_id = record.id
     n.post_type = type(record).__name__
     n.action = action
