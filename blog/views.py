@@ -65,10 +65,8 @@ def delete_object(request, object_id, object_name):
             return delete_record(request, Answer, object_id)
 
 
-
 def delete_notification(request, notification_id):
     Notification.objects.filter(pk=notification_id).delete()
-    print(Notification.objects.all())
     return HttpResponse('')
 
 
